@@ -17,11 +17,11 @@ elif chip_id == ap_chip.RP2040:
     from adafruit_blinka.microcontroller.rp2040.pin import *
 elif chip_id == ap_chip.BCM2XXX:
     if board_id in (
-        "RASPBERRY_PI_4B",
-        "RASPBERRY_PI_400",
-        "RASPBERRY_PI_CM4",
-        "RASPBERRY_PI_CM4S",
-        "RASPBERRY_PI_5",
+            "RASPBERRY_PI_4B",
+            "RASPBERRY_PI_400",
+            "RASPBERRY_PI_CM4",
+            "RASPBERRY_PI_CM4S",
+            "RASPBERRY_PI_5",
     ):
         from adafruit_blinka.microcontroller.bcm2711.pin import *
     else:
@@ -123,7 +123,7 @@ elif chip_id == ap_chip.RK3328:
 elif chip_id == ap_chip.RK3566:
     from adafruit_blinka.microcontroller.rockchip.rk3566.pin import *
 elif chip_id == ap_chip.RK3568:
-    if board_id in (ap_boards.ODROID_M1,):
+    if board_id in (ap_boards.ODROID_M1, ):
         from adafruit_blinka.microcontroller.rockchip.rk3568b2.pin import *
     else:
         from adafruit_blinka.microcontroller.rockchip.rk3568.pin import *
@@ -157,8 +157,12 @@ elif "sphinx" in sys.modules:
     # pylint: disable=unused-import
     from adafruit_blinka.microcontroller.generic_micropython import Pin
 elif chip_id == ap_chip.GENERIC_X86:
-    print("WARNING: GENERIC_X86 is not fully supported. Some features may not work.")
+    print(
+        "WARNING: GENERIC_X86 is not fully supported. Some features may not work."
+    )
     from adafruit_blinka.microcontroller.generic_micropython import Pin
+elif chip_id == ap_chip.PYTEST:
+    from adafruit_blinka.microcontroller.pytest_board.pin import *
 elif chip_id is None:
     print(
         "WARNING: chip_id == None is not fully supported. Some features may not work."

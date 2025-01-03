@@ -33,10 +33,10 @@ elif chip_id == ap_chip.RP2040:
     from adafruit_blinka.microcontroller.rp2040 import *
 elif chip_id == ap_chip.BCM2XXX:
     if board_id in [
-        "RASPBERRY_PI_4B",
-        "RASPBERRY_PI_400",
-        "RASPBERRY_PI_CM4",
-        "RASPBERRY_PI_5",
+            "RASPBERRY_PI_4B",
+            "RASPBERRY_PI_400",
+            "RASPBERRY_PI_CM4",
+            "RASPBERRY_PI_5",
     ]:
         from adafruit_blinka.microcontroller.bcm2711 import *
     else:
@@ -160,9 +160,13 @@ elif chip_id == ap_chip.TH1520:
 elif chip_id == ap_chip.K1:
     from adafruit_blinka.microcontroller.spacemit.k1 import *
 elif chip_id == ap_chip.GENERIC_X86:
-    print("WARNING: GENERIC_X86 is not fully supported. Some features may not work.")
+    print(
+        "WARNING: GENERIC_X86 is not fully supported. Some features may not work."
+    )
 elif chip_id == ap_chip.OS_AGNOSTIC:
     from adafruit_blinka.microcontroller.generic_agnostic_board import *
+elif chip_id == ap_chip.PYTEST:
+    from adafruit_blinka.microcontroller.pytest_board import *
 elif chip_id is None:
     print(
         "WARNING: chip_id == None is not fully supported. Some features may not work."

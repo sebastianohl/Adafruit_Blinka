@@ -56,8 +56,7 @@ class I2C(Lockable):
 
         if detector.board.OS_AGNOSTIC_BOARD:
             from adafruit_blinka.microcontroller.generic_agnostic_board.i2c import (
-                I2C as _I2C,
-            )
+                I2C as _I2C, )
 
             self._i2c = _I2C(frequency=frequency)
             return
@@ -74,29 +73,25 @@ class I2C(Lockable):
             return
         if detector.board.feather_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_Feather as _I2C,
-            )
+                I2C_Feather as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.feather_can_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_Feather_CAN as _I2C,
-            )
+                I2C_Feather_CAN as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.feather_epd_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_Feather_EPD as _I2C,
-            )
+                I2C_Feather_EPD as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.feather_rfm_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_Feather_RFM as _I2C,
-            )
+                I2C_Feather_RFM as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
@@ -107,29 +102,25 @@ class I2C(Lockable):
             return
         if detector.board.itsybitsy_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_ItsyBitsy as _I2C,
-            )
+                I2C_ItsyBitsy as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.macropad_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_MacroPad as _I2C,
-            )
+                I2C_MacroPad as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.qt2040_trinkey_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_QT2040_Trinkey as _I2C,
-            )
+                I2C_QT2040_Trinkey as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
         if detector.board.kb2040_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.i2c import (
-                I2C_KB2040 as _I2C,
-            )
+                I2C_KB2040 as _I2C, )
 
             self._i2c = _I2C(scl, sda, frequency=frequency)
             return
@@ -153,15 +144,16 @@ class I2C(Lockable):
             from adafruit_blinka.microcontroller.ftdi_mpsse.mpsse.i2c import I2C as _I2C
         else:
             from adafruit_blinka.microcontroller.generic_micropython.i2c import (
-                I2C as _I2C,
-            )
+                I2C as _I2C, )
         from microcontroller.pin import i2cPorts
 
         for portId, portScl, portSda in i2cPorts:
             try:
                 # pylint: disable=unexpected-keyword-arg
                 if scl == portScl and sda == portSda:
-                    self._i2c = _I2C(portId, mode=_I2C.MASTER, baudrate=frequency)
+                    self._i2c = _I2C(portId,
+                                     mode=_I2C.MASTER,
+                                     baudrate=frequency)
                     break
                 # pylint: enable=unexpected-keyword-arg
             except RuntimeError:
@@ -169,9 +161,7 @@ class I2C(Lockable):
         else:
             raise ValueError(
                 "No Hardware I2C on (scl,sda)={}\nValid I2C ports: {}".format(
-                    (scl, sda), i2cPorts
-                )
-            )
+                    (scl, sda), i2cPorts))
         if threading is not None:
             self._lock = threading.RLock()
 
@@ -210,8 +200,12 @@ class I2C(Lockable):
             buffer = bytes([ord(x) for x in buffer])
         if start != 0 or end is not None:
             if end is None:
-                return self._i2c.writeto(address, memoryview(buffer)[start:], stop=True)
-            return self._i2c.writeto(address, memoryview(buffer)[start:end], stop=True)
+                return self._i2c.writeto(address,
+                                         memoryview(buffer)[start:],
+                                         stop=True)
+            return self._i2c.writeto(address,
+                                     memoryview(buffer)[start:end],
+                                     stop=True)
         return self._i2c.writeto(address, buffer, stop=True)
 
     def writeto_then_readfrom(
@@ -278,81 +272,86 @@ class SPI(Lockable):
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import SPI_Pico as _SPI
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.feather_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather as _SPI,
-            )
+                SPI_Feather as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.feather_can_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_CAN as _SPI,
-            )
+                SPI_Feather_CAN as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.feather_epd_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_EPD as _SPI,
-            )
+                SPI_Feather_EPD as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.feather_rfm_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_RFM as _SPI,
-            )
+                SPI_Feather_RFM as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.itsybitsy_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_ItsyBitsy as _SPI,
-            )
+                SPI_ItsyBitsy as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.macropad_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_MacroPad as _SPI,
-            )
+                SPI_MacroPad as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.qtpy_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import SPI_QTPY as _SPI
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.kb2040_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_KB2040 as _SPI,
-            )
+                SPI_KB2040 as _SPI, )
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.chip.id == ap_chip.RP2040:
             from adafruit_blinka.microcontroller.rp2040.spi import SPI as _SPI
 
-            self._spi = _SPI(clock, MOSI, MISO)  # Pins configured on instantiation
-            self._pins = (clock, clock, clock)  # These don't matter, they're discarded
+            self._spi = _SPI(clock, MOSI,
+                             MISO)  # Pins configured on instantiation
+            self._pins = (clock, clock, clock
+                          )  # These don't matter, they're discarded
             return
         if detector.board.any_siemens_iot2000:
             from adafruit_blinka.microcontroller.am65xx.spi import SPI as _SPI
 
             self._spi = _SPI(clock)  # this is really all that's needed
-            self._pins = (clock, clock, clock)  # will determine MOSI/MISO from clock
+            self._pins = (clock, clock, clock
+                          )  # will determine MOSI/MISO from clock
             return
         if detector.board.any_embedded_linux:
             from adafruit_blinka.microcontroller.generic_linux.spi import SPI as _SPI
@@ -360,29 +359,28 @@ class SPI(Lockable):
             from adafruit_blinka.microcontroller.ftdi_mpsse.mpsse.spi import SPI as _SPI
         elif detector.board.OS_AGNOSTIC_BOARD:
             from adafruit_blinka.microcontroller.generic_agnostic_board.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
+        elif detector.board.PYTEST_BOARD:
+            from adafruit_blinka.microcontroller.pytest_board.spi import (
+                SPI as _SPI, )
         else:
             from adafruit_blinka.microcontroller.generic_micropython.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
         from microcontroller.pin import spiPorts
 
         for portId, portSck, portMosi, portMiso in spiPorts:
-            if (
-                (clock == portSck)
-                and MOSI in (portMosi, None)  # Clock is required!
-                and MISO in (portMiso, None)  # But can do with just output
-            ):  # Or just input
+            print([clock, portSck, clock == portSck])
+            if ((clock == portSck)
+                    and MOSI in (portMosi, None)  # Clock is required!
+                    and MISO in (portMiso, None)  # But can do with just output
+                ):  # Or just input
                 self._spi = _SPI(portId)
                 self._pins = (portSck, portMosi, portMiso)
                 break
         else:
             raise ValueError(
-                "No Hardware SPI on (SCLK, MOSI, MISO)={}\nValid SPI ports:{}".format(
-                    (clock, MOSI, MISO), spiPorts
-                )
-            )
+                "No Hardware SPI on (SCLK, MOSI, MISO)={}\nValid SPI ports:{}".
+                format((clock, MOSI, MISO), spiPorts))
 
     def configure(self, baudrate=100000, polarity=0, phase=0, bits=8):
         """Update the configuration"""
@@ -390,12 +388,10 @@ class SPI(Lockable):
             from adafruit_blinka.microcontroller.generic_linux.spi import SPI as _SPI
         elif detector.board.ftdi_ft232h:
             from adafruit_blinka.microcontroller.ftdi_mpsse.mpsse.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
         elif detector.board.ftdi_ft2232h:
             from adafruit_blinka.microcontroller.ftdi_mpsse.mpsse.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
         elif detector.board.binho_nova:
             from adafruit_blinka.microcontroller.nova.spi import SPI as _SPI
         elif detector.board.greatfet_one:
@@ -406,32 +402,25 @@ class SPI(Lockable):
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import SPI_Pico as _SPI
         elif detector.board.feather_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather as _SPI,
-            )
+                SPI_Feather as _SPI, )
         elif detector.board.feather_can_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_CAN as _SPI,
-            )
+                SPI_Feather_CAN as _SPI, )
         elif detector.board.feather_epd_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_EPD as _SPI,
-            )
+                SPI_Feather_EPD as _SPI, )
         elif detector.board.feather_rfm_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_Feather_RFM as _SPI,
-            )
+                SPI_Feather_RFM as _SPI, )
         elif detector.board.itsybitsy_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_ItsyBitsy as _SPI,
-            )
+                SPI_ItsyBitsy as _SPI, )
         elif detector.board.macropad_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_MacroPad as _SPI,
-            )
+                SPI_MacroPad as _SPI, )
         elif detector.board.kb2040_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import (
-                SPI_KB2040 as _SPI,
-            )
+                SPI_KB2040 as _SPI, )
         elif detector.board.qtpy_u2if:
             from adafruit_blinka.microcontroller.rp2040_u2if.spi import SPI_QTPY as _SPI
         elif detector.chip.id == ap_chip.RP2040:
@@ -443,12 +432,13 @@ class SPI(Lockable):
             from adafruit_blinka.microcontroller.generic_linux.spi import SPI as _SPI
         elif detector.board.OS_AGNOSTIC_BOARD:
             from adafruit_blinka.microcontroller.generic_agnostic_board.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
+        elif detector.board.PYTEST_BOARD:
+            from adafruit_blinka.microcontroller.pytest_board.spi import (
+                SPI as _SPI, )
         else:
             from adafruit_blinka.microcontroller.generic_micropython.spi import (
-                SPI as _SPI,
-            )
+                SPI as _SPI, )
 
         if self._locked:
             # TODO check if #init ignores MOSI=None rather than unsetting, to save _pinIds attribute
@@ -485,13 +475,16 @@ class SPI(Lockable):
         """Read from the SPI device into a buffer"""
         return self._spi.readinto(buf, start, end, write_value=write_value)
 
-    def write_readinto(
-        self, buffer_out, buffer_in, out_start=0, out_end=None, in_start=0, in_end=None
-    ):
+    def write_readinto(self,
+                       buffer_out,
+                       buffer_in,
+                       out_start=0,
+                       out_end=None,
+                       in_start=0,
+                       in_end=None):
         """Write to the SPI device and read from the SPI device into a buffer"""
-        return self._spi.write_readinto(
-            buffer_out, buffer_in, out_start, out_end, in_start, in_end
-        )
+        return self._spi.write_readinto(buffer_out, buffer_in, out_start,
+                                        out_end, in_start, in_end)
 
 
 class UART(Lockable):
@@ -539,8 +532,8 @@ class UART(Lockable):
 
         if flow is not None:  # default 0
             raise NotImplementedError(
-                "Parameter '{}' unsupported on {}".format("flow", agnostic.board_id)
-            )
+                "Parameter '{}' unsupported on {}".format(
+                    "flow", agnostic.board_id))
 
         # translate parity flag for Micropython
         if parity is UART.Parity.ODD:
@@ -577,10 +570,8 @@ class UART(Lockable):
                     break
             else:
                 raise ValueError(
-                    "No Hardware UART on (tx,rx)={}\nValid UART ports: {}".format(
-                        (tx, rx), uartPorts
-                    )
-                )
+                    "No Hardware UART on (tx,rx)={}\nValid UART ports: {}".
+                    format((tx, rx), uartPorts))
 
     def deinit(self):
         """Deinitialization"""

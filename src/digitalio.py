@@ -16,11 +16,11 @@ from adafruit_blinka.agnostic import board_id, detector
 # By Chip Class
 if detector.chip.BCM2XXX:
     if board_id in (
-        "RASPBERRY_PI_4B",
-        "RASPBERRY_PI_400",
-        "RASPBERRY_PI_CM4",
-        "RASPBERRY_PI_CM4S",
-        "RASPBERRY_PI_5",
+            "RASPBERRY_PI_4B",
+            "RASPBERRY_PI_400",
+            "RASPBERRY_PI_CM4",
+            "RASPBERRY_PI_CM4S",
+            "RASPBERRY_PI_5",
     ):
         from adafruit_blinka.microcontroller.bcm2711.pin import *
     else:
@@ -147,6 +147,8 @@ elif detector.chip.RV1106:
     from adafruit_blinka.microcontroller.rockchip.rv1106.pin import Pin
 elif detector.chip.OS_AGNOSTIC:
     from adafruit_blinka.microcontroller.generic_agnostic_board.pin import Pin
+elif detector.chip.PYTEST:
+    from adafruit_blinka.microcontroller.pytest_board.pin import Pin
 
 from adafruit_blinka import Enum, ContextManaged
 
@@ -258,9 +260,8 @@ class DigitalInOut(ContextManaged):
                 if hasattr(Pin, "PULL_DOWN"):
                     self._pin.init(mode=Pin.IN, pull=Pin.PULL_DOWN)
                 else:
-                    raise NotImplementedError(
-                        "{} unsupported on {}".format(Pull.DOWN, board_id)
-                    )
+                    raise NotImplementedError("{} unsupported on {}".format(
+                        Pull.DOWN, board_id))
             elif pul is None:
                 self._pin.init(mode=Pin.IN, pull=None)
             else:

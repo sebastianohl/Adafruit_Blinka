@@ -10,11 +10,9 @@ See `CircuitPython:board` in CircuitPython for more details.
 * Author(s): cefn
 """
 
-
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_Blinka.git"
 __blinka__ = True
-
 
 import sys
 import adafruit_platformdetect.constants.boards as ap_board
@@ -23,7 +21,11 @@ from adafruit_blinka.agnostic import board_id, detector
 # pylint: disable=wildcard-import,unused-wildcard-import,ungrouped-imports
 # pylint: disable=import-outside-toplevel
 
-if board_id == ap_board.FEATHER_HUZZAH:
+print(board_id)
+if board_id == ap_board.PYTEST_BOARD:
+    from adafruit_blinka.board.pytest_board import *
+
+elif board_id == ap_board.FEATHER_HUZZAH:
     from adafruit_blinka.board.feather_huzzah import *
 
 elif board_id == ap_board.VISIONFIVE2:
@@ -41,13 +43,9 @@ elif board_id == ap_board.PYBOARD:
 elif board_id == ap_board.RASPBERRY_PI_PICO:
     from adafruit_blinka.board.raspberrypi.pico import *
 
-elif (
-    detector.board.RASPBERRY_PI_4B
-    or detector.board.RASPBERRY_PI_CM4
-    or detector.board.RASPBERRY_PI_CM4S
-    or detector.board.RASPBERRY_PI_400
-    or detector.board.RASPBERRY_PI_5
-):
+elif (detector.board.RASPBERRY_PI_4B or detector.board.RASPBERRY_PI_CM4
+      or detector.board.RASPBERRY_PI_CM4S or detector.board.RASPBERRY_PI_400
+      or detector.board.RASPBERRY_PI_5):
     from adafruit_blinka.board.raspberrypi.raspi_4b import *
 
 elif detector.board.any_raspberry_pi_40_pin:
@@ -447,9 +445,9 @@ elif board_id is None:
     import platform
     import pkg_resources
 
-    package = str(pkg_resources.get_distribution("adafruit_platformdetect")).split()
-    raise NotImplementedError(
-        f"""
+    package = str(
+        pkg_resources.get_distribution("adafruit_platformdetect")).split()
+    raise NotImplementedError(f"""
         {package[0]} version {package[1]} was unable to identify the board and/or
         microcontroller running the {platform.system()} platform. Please be sure you
         have the latest packages by running:
@@ -458,8 +456,7 @@ elif board_id is None:
         If you are running the latest package, your board may not yet be supported. Please
         open a New Issue on GitHub at https://github.com/adafruit/Adafruit_Blinka/issues and
         select New Board Request.
-        """
-    )
+        """)
 
 else:
     raise NotImplementedError(f"Board not supported {board_id}.")
