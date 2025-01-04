@@ -10,7 +10,6 @@ from threading import Thread, Event
 from queue import Queue
 from select import select
 import json
-import base64
 
 break_threads = Event()
 
@@ -110,7 +109,19 @@ class SocketConnection:
         self._child_fd.send("data is here".encode())
 
     # pylint: disable=unnecessary-pass
+    def _incoming_packet_available(self):
+        """will _receive_packet block"""
+
+        return not self._incoming.empty()
+
+    # pylint: disable=unnecessary-pass
     def _receive_packet(self):
         """Read data from socket, blocking if nothing available"""
 
         return self._incoming.get()
+
+    def __copy__(self):
+        assert False, "copy not allowed"
+
+    def __deepcopy__(self, memo):
+        assert False, "deepcopy not allowed"

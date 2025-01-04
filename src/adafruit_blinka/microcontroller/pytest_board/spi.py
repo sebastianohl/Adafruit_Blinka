@@ -1,16 +1,18 @@
 # SPDX-FileCopyrightText: 2024 Brent Rubell for Adafruit Industries
 #
 # SPDX-License-Identifier: MIT
-"""SPI class for a generic agnostic board."""
+"""SPI class for a pytest board."""
 
 # from .rp2040_u2if import rp2040_u2if
 
 import base64
 from adafruit_blinka.microcontroller.pytest_board.socket_connection import SocketConnection
 
+sockets = {}
+
 
 # pylint: disable=protected-access, no-self-use
-class SPI(SocketConnection):
+class SPI:
     """SPI Base Class for a testing board."""
 
     MSB = 0
@@ -18,10 +20,19 @@ class SPI(SocketConnection):
     def __init__(self, index, *, baudrate=100000):
         self._index = index
         self._frequency = baudrate
-        super().__init__(f'/tmp/SPI{index}')
+
+        if str(self._index) not in sockets:
+            sockets[str(self._index)] = {
+                "socket": SocketConnection(f"/tmp/SPI{self._index}"),
+                "count": 0
+            }
+        sockets[str(self._index)]["count"] += 1
+        self.socket = sockets[str(self._index)]["socket"]
 
     def __del__(self):
-        super().__del__()
+        sockets[str(self._index)]["count"] -= 1
+        if sockets[str(self._index)]["count"] == 0:
+            del sockets[str(self._index)]
 
     # pylint: disable=too-many-arguments,unused-argument
     def init(
@@ -53,7 +64,8 @@ class SPI(SocketConnection):
         if end is None:
             end = len(buf)
 
-        self._send_packet({"data": base64.b64encode(buf[start:end]).decode()})
+        self.socket._send_packet(
+            {"data": base64.b64encode(buf[start:end]).decode()})
 
     # pylint: disable=unnecessary-pass
     def readinto(self, buf, start=0, end=None, write_value=0):
@@ -64,9 +76,9 @@ class SPI(SocketConnection):
         if end is None:
             end = len(buf)
 
-        self._send_packet(
+        self.socket._send_packet(
             {"data": base64.b64encode([write_value] * (end - start)).decode()})
-        data = base64.b64decode(self._receive_packet()["data"])
+        data = base64.b64decode(self.socket._receive_packet()["data"])
         for i in range(end - start):  # 'readinto' the given buffer
             buf[start + i] = data[i]
 
@@ -93,11 +105,10 @@ class SPI(SocketConnection):
         if out_end - out_start != in_end - in_start:
             raise RuntimeError("Buffer slices must be of equal length.")
 
-        self._send_packet({
+        self.socket._send_packet({
             "data":
             base64.b64encode(list(buffer_out[out_start:out_end + 1])).decode()
         })
-        data = base64.b64decode(self._receive_packet()["data"])
-        data = self._incoming.get()
+        data = base64.b64decode(self.socket._receive_packet()["data"])
         for i in range((in_end - in_start)):
             buffer_in[i + in_start] = data[i]

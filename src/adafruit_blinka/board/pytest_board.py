@@ -4,23 +4,23 @@
 """Pin definitions for a pytest, os-agnostic, board."""
 from adafruit_blinka.microcontroller.pytest_board import pin
 
-# Digital pins
-Dx_INPUT_TRUE = pin.D0
-Dx_INPUT_FALSE = pin.D1
-Dx_INPUT_TRUE_PULL_UP = pin.D2
-Dx_INPUT_TRUE_PULL_DOWN = pin.D3
-Dx_OUTPUT = pin.D4
-Dx_INPUT_TOGGLE = pin.D7
-
-# Special digital pins for pixels
-NEOPIXEL = pin.D6
-DOTSTAR_DATA = pin.D8
-DOTSTAR_CLK = pin.D9
+D0 = pin.D0
+D1 = pin.D1
+D2 = pin.D2
+D3 = pin.D3
+D4 = pin.D4
+D5 = pin.D5
+D6 = pin.D6
+D7 = pin.D7
+D8 = pin.D8
+D9 = pin.D9
 
 # Analog pins
-Ax_INPUT_RAND_INT = pin.A0
-Ax_INPUT_FIXED_INT_PI = pin.A1
-Ax_OUTPUT = pin.A4
+A0 = pin.A0
+A1 = pin.A1
+A2 = pin.A2
+A3 = pin.A3
+A4 = pin.A4
 
 # SPI pins
 SCLK = pin.SCLK

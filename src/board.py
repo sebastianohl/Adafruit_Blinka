@@ -21,7 +21,6 @@ from adafruit_blinka.agnostic import board_id, detector
 # pylint: disable=wildcard-import,unused-wildcard-import,ungrouped-imports
 # pylint: disable=import-outside-toplevel
 
-print(board_id)
 if board_id == ap_board.PYTEST_BOARD:
     from adafruit_blinka.board.pytest_board import *
 

@@ -369,7 +369,6 @@ class SPI(Lockable):
         from microcontroller.pin import spiPorts
 
         for portId, portSck, portMosi, portMiso in spiPorts:
-            print([clock, portSck, clock == portSck])
             if ((clock == portSck)
                     and MOSI in (portMosi, None)  # Clock is required!
                     and MISO in (portMiso, None)  # But can do with just output
