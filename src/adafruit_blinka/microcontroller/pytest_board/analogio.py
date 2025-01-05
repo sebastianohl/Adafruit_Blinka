@@ -8,7 +8,7 @@ See `CircuitPython:analogio` in CircuitPython for more details.
 * Author(s): Carter Nelson
 """
 
-from adafruit_blinka.microcontroller.generic_agnostic_board.pin import Pin
+from adafruit_blinka.microcontroller.pytest_board.pin import Pin
 from adafruit_blinka import ContextManaged
 
 

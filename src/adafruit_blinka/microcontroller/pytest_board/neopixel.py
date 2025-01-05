@@ -15,4 +15,5 @@ def neopixel_write(gpio, buf):
         buffer.append(buf[i + 1])
         buffer.append(buf[i])
 
-    # then, do nothing
+    # mis use DIO object to send directly via pin
+    gpio._pin.write(buffer)
