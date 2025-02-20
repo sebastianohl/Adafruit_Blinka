@@ -24,6 +24,8 @@ class BufferedIn(ContextManaged):
 
     def readinto(self, buffer: circuitpython_typing.WriteableBuffer) -> int:
         data = self._pin.read()
+        if data is None:
+            return 0
         for i in range(min(len(data), len(buffer))):
             buffer[i] = data[i]
         return min(len(data), len(buffer))
