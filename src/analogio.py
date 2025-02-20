@@ -52,24 +52,23 @@ elif "sphinx" in sys.modules:
     pass
 elif detector.board.pico_u2if:
     from adafruit_blinka.microcontroller.rp2040_u2if.analogio import (
-        AnalogIn_Pico as AnalogIn,
-    )
+        AnalogIn_Pico as AnalogIn, )
 elif detector.board.feather_u2if:
     from adafruit_blinka.microcontroller.rp2040_u2if.analogio import (
-        AnalogIn_Feather as AnalogIn,
-    )
+        AnalogIn_Feather as AnalogIn, )
 elif detector.board.qtpy_u2if:
     from adafruit_blinka.microcontroller.rp2040_u2if.analogio import (
-        AnalogIn_QTPY as AnalogIn,
-    )
+        AnalogIn_QTPY as AnalogIn, )
 elif detector.board.itsybitsy_u2if:
     from adafruit_blinka.microcontroller.rp2040_u2if.analogio import (
-        AnalogIn_ItsyBitsy as AnalogIn,
-    )
+        AnalogIn_ItsyBitsy as AnalogIn, )
 elif detector.board.OS_AGNOSTIC_BOARD:
     from adafruit_blinka.microcontroller.generic_agnostic_board.analogio import AnalogIn
     from adafruit_blinka.microcontroller.generic_agnostic_board.analogio import (
-        AnalogOut,
-    )
+        AnalogOut, )
+elif detector.board.PYTEST_BOARD:
+    from adafruit_blinka.microcontroller.pytest_board.analogio import AnalogIn
+    from adafruit_blinka.microcontroller.pytest_board.analogio import (
+        AnalogOut, )
 else:
     raise NotImplementedError("analogio not supported for this board.")
