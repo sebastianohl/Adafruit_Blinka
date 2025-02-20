@@ -23,7 +23,17 @@ class BufferedIn(ContextManaged):
         self._sample_rate = sample_rate
 
     def readinto(self, buffer: circuitpython_typing.WriteableBuffer) -> int:
-        data = self._pin.read()
+        """
+        read into buffer
+        Blocks if no data is avaiable
+
+        params:
+            buffer: writable buffer with enough space to hold the data. 
+                    if more data is available, it is lost
+        returns:
+            number of samples read
+        """
+        data = self._pin.socket._receive_packet()["value"]
         if data is None:
             return 0
         for i in range(min(len(data), len(buffer))):
