@@ -27,13 +27,9 @@ if os.path.exists("/proc/device-tree/compatible"):
     if b"nvidia,tegra" in compat:
         board_reqs = ["Jetson.GPIO"]
     # Pi 4 and Earlier
-    if (
-        b"brcm,bcm2835" in compat
-        or b"brcm,bcm2836" in compat
-        or b"brcm,bcm2837" in compat
-        or b"brcm,bcm2838" in compat
-        or b"brcm,bcm2711" in compat
-    ):
+    if (b"brcm,bcm2835" in compat or b"brcm,bcm2836" in compat
+            or b"brcm,bcm2837" in compat or b"brcm,bcm2838" in compat
+            or b"brcm,bcm2711" in compat):
         board_reqs = ["RPi.GPIO", "rpi_ws281x>=4.0.0"]
     # Pi 5
     if b"brcm,bcm2712" in compat:
@@ -42,9 +38,8 @@ if os.path.exists("/proc/device-tree/compatible"):
             "rpi-lgpio",
             "Adafruit-Blinka-Raspberry-Pi5-Neopixel",
         ]
-    if (
-        b"ti,am335x" in compat
-    ):  # BeagleBone Black, Green, PocketBeagle, BeagleBone AI, etc.
+    if (b"ti,am335x" in compat
+        ):  # BeagleBone Black, Green, PocketBeagle, BeagleBone AI, etc.
         board_reqs = ["Adafruit_BBIO"]
 
 setup(
@@ -55,7 +50,8 @@ setup(
         "local_scheme": "no-local-version",
     },
     setup_requires=["setuptools_scm"],
-    description="CircuitPython APIs for non-CircuitPython versions of Python such as CPython on Linux and MicroPython.",
+    description=
+    "CircuitPython APIs for non-CircuitPython versions of Python such as CPython on Linux and MicroPython.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
     author="Adafruit Industries",
@@ -67,6 +63,7 @@ setup(
     # py_modules lists top-level single file packages to include.
     # find_packages only finds packages in directories with __init__.py files.
     py_modules=[
+        "analogbufio",
         "analogio",
         "bitbangio",
         "board",
@@ -99,8 +96,7 @@ setup(
         "pyftdi>=0.40.0",
         "adafruit-circuitpython-typing",
         "sysv_ipc>=1.1.0;sys_platform=='linux' and platform_machine!='mips'",
-    ]
-    + board_reqs,
+    ] + board_reqs,
     license="MIT",
     classifiers=[
         # Trove classifiers
