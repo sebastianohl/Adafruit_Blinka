@@ -363,6 +363,9 @@ class SPI(Lockable):
         elif detector.board.PYTEST_BOARD:
             from adafruit_blinka.microcontroller.pytest_board.spi import (
                 SPI as _SPI, )
+            self._spi = _SPI(0)
+            self._pins = (clock, MOSI, MISO)
+            return
         else:
             from adafruit_blinka.microcontroller.generic_micropython.spi import (
                 SPI as _SPI, )
