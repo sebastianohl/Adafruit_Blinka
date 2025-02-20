@@ -24,19 +24,15 @@ elif detector.board.pico_u2if:
     from adafruit_blinka.microcontroller.rp2040_u2if import neopixel as _neopixel
 elif detector.board.OS_AGNOSTIC_BOARD:
     from adafruit_blinka.microcontroller.generic_agnostic_board import (
-        neopixel as _neopixel,
-    )
-elif (
-    detector.board.feather_u2if
-    or detector.board.feather_can_u2if
-    or detector.board.feather_epd_u2if
-    or detector.board.feather_rfm_u2if
-    or detector.board.qtpy_u2if
-    or detector.board.itsybitsy_u2if
-    or detector.board.macropad_u2if
-    or detector.board.qt2040_trinkey_u2if
-    or detector.board.kb2040_u2if
-):
+        neopixel as _neopixel, )
+elif detector.board.PYTEST_BOARD:
+    from adafruit_blinka.microcontroller.pytest_board import (
+        neopixel as _neopixel, )
+elif (detector.board.feather_u2if or detector.board.feather_can_u2if
+      or detector.board.feather_epd_u2if or detector.board.feather_rfm_u2if
+      or detector.board.qtpy_u2if or detector.board.itsybitsy_u2if
+      or detector.board.macropad_u2if or detector.board.qt2040_trinkey_u2if
+      or detector.board.kb2040_u2if):
     from adafruit_blinka.microcontroller.rp2040_u2if import neopixel as _neopixel
 elif "sphinx" in sys.modules:
     pass
